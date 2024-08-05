@@ -4,16 +4,10 @@ import telran.util.Arrays;
 
 public class Canvas implements Shape {
 
-    public Canvas() {
-        shapes = new Shape[0];
-    }
-
     Shape[] shapes;
 
-    public void addShape(Shape shape) {
-        // Adding the "shape" object to the array of "shapes"
-        // Using our own library, instead of the standart one
-        shapes = Arrays.insert(shapes, shapes.length, shape);
+    public Canvas() {
+        shapes = new Shape[0];
     }
 
     @Override
@@ -32,6 +26,25 @@ public class Canvas implements Shape {
         int res = 0;
         for (Shape shape : shapes) {
             res += shape.square();
+        }
+        return res;
+    }
+
+    public void addShape(Shape shape) {
+        // Adding the "shape" object to the array of "shapes"
+        // Using our own library, instead of the standart one
+        shapes = Arrays.insert(shapes, shapes.length, shape);
+    }
+
+    public int count() {
+        // We are counting the number of all "shapes" in a given "Canvas" array.
+        // "Canvas" class itself is an instance of "Shape"
+        int res = 0;
+        for (Shape shape : shapes) {
+            if (shape instanceof Canvas canvas) { // before quick fix in was: if (shape instanceof Canvas)
+                res += canvas.count(); // before quick fix it was: res += ((Canvas)shape).count();
+            }
+            res++;
         }
         return res;
     }
